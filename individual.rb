@@ -32,8 +32,8 @@ class Individual
     ind.is_a?(Individual) && ind.sex != @sex && !paired? && !ind.paired?
   end
 
-  # Returns a human readable string representation of this individual.
+  # Returns a human-readable string representation of this individual.
   def describe
-    "#{self} sex:#{sex} paired?:#{paired?} couple:#{couple}"
+    "#<Individual:#{object_id} @sex=#{sex} @couple=#{@couple}>"
   end
 end

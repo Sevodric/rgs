@@ -36,4 +36,9 @@ class Couple
       @progeny.push(Individual.new(Individual::SEXES.sample))
     end
   end
+
+  # Returns a human-readable string representation of this couple.
+  def describe
+    "#<Couple:#{object_id} @members=#{@members} @progeny=#{@progeny}>"
+  end
 end
