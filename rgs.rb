@@ -18,7 +18,7 @@ def match(pop)
   pop.each do |p1|
     pop.each do |p2|
       if p1.compatible?(p2)
-        couples.push(Couple.new(p1, p2))
+        couples.push(Couple.new(p1, p2, MAX_PROGENY))
         break
       end
     end
@@ -26,12 +26,20 @@ def match(pop)
   couples
 end
 
-NUMBER_OF_GENERATION = 20
-INITIAL_POPULATION = Array.new(50) { Individual.new(Individual::SEXES.sample) }
+if ARGV.length < 3
+  puts('Missing arguments')
+  exit
+end
+
+INITIAL_POPULATION = Array.new(ARGV[0].to_i) do
+  Individual.new(Individual::SEXES.sample)
+end
+MAX_PROGENY = ARGV[1].to_i
+NUMBER_OF_GENERATION = ARGV[2].to_i
 
 generations = { 1 => INITIAL_POPULATION }
 
-(1..NUMBER_OF_GENERATION).each do |i|
+(1...NUMBER_OF_GENERATION).each do |i|
   couples = match(generations[i])
   new_generation = []
   couples.each do |c|
@@ -42,5 +50,5 @@ generations = { 1 => INITIAL_POPULATION }
 end
 
 generations.each do |gen, pop|
-  puts("Generation #{gen} population: #{pop.length}")
+  puts("Population at gen #{gen}: #{pop.length}")
 end

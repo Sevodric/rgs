@@ -27,7 +27,7 @@ class Individual
     @couple != nil
   end
 
-  # Checks if this indivual is biologically compatible with another one.
+  # Checks if this indivual is compatible with another one.
   def compatible?(ind)
     ind.is_a?(Individual) && ind.sex != @sex && !paired? && !ind.paired?
   end
