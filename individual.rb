@@ -6,10 +6,10 @@ require './util/assertion_error.rb'
 # @inv  SEXES.includes?(sex)
 #       paired? == (couple != nil)
 class Individual
+  SEXES = %i[male female].freeze
+  
   attr_reader :sex, :couple
   attr_writer :couple
-
-  SEXES = %i[male female].freeze
 
   # A new individual with the given sex.
   # @pre  SEXES.includes?(sex)
@@ -34,6 +34,6 @@ class Individual
 
   # Returns a human-readable string representation of this individual.
   def describe
-    "#<Individual:#{object_id} @sex=#{sex} @couple=#{@couple}>"
+    "#<Individual:#{object_id} @sex=#{@sex} @couple=#{@couple}>"
   end
 end

@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 # An error indicating the violation of a contract.
-class AssertionError < StandardError
+class AssertionError < ArgumentError
   def initialize(msg = '')
-    super
+    if msg.empty?
+      super('precondition violation')
+    else
+      super('precondition violation (' + msg + ')')
+    end
   end
 end
