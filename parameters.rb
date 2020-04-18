@@ -2,6 +2,9 @@
 
 # The parameters of the simulation
 module Parameters
+  FORMAT_WIDTH = 10
+  FLOAT_PRECISION = 3
+
   class << self
     attr_accessor :duration, :initial_pop_size, :max_offsprings
 

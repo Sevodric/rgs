@@ -36,13 +36,18 @@ class Simulation
 
   # Displays the results of the simulation on the standard output.
   def show
-    puts("GEN\tPOP\tAVG\tM%|F%\tNRR")
-    puts("---\t---\t---\t-----\t---")
-    @generations.each_with_index do |gen, i|
-      break if i == @generations.length - 1
-
-      print("#{i + 1}\t")
-      gen.display_details
+    display_column_titles
+    (1...@generations.length).each do |i|
+      print(format("%5d", i))
+      puts(@generations[i - 1].formatted_infos)
     end
+  end
+
+  def display_column_titles
+    fw = Parameters::FORMAT_WIDTH
+    puts(format("%#5s%#{fw}s%#{fw}s%#{fw}s%#{fw}s%#{fw}s", 'GEN',
+         'POP', 'MALE%', 'FEMALE%', 'AVG OFF', 'NRR'))
+    ((fw * 5) + 5).times { print('-') }
+    print("\n")
   end
 end
