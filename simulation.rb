@@ -1,37 +1,40 @@
 # frozen_string_literal: true
 
 require './util/assertion_error'
-require './individual.rb'
 require './generation.rb'
+require './parameters.rb'
 
 # A simulation of the evolution of a population.
 class Simulation
-  def initialize(initial_pop_nb, duration)
-    unless initial_pop_nb >= 0 && duration >= 0
-      raise AssertionError
+  # A new simulation
+  # @pre
+  #   Parameters.valid?
+  def initialize
+    unless Parameters.valid?
+      raise AssertionError, 'invalid simulation parameters'
     end
-    @duration = duration
-    initial_pop = Array.new(initial_pop_nb) do
-      Individual.new(Individual::SEXES.sample)
-    end
-    @generations = [Generation.new(initial_pop)]
+
+    @generations = [Generation.new_initial_pop]
   end
 
+  # Starts the simulation and displays the results on the standard output.
   def start
-    (0...@duration).each do |i|
+    (0...Parameters.duration).each do |i|
       @generations[i + 1] = Generation.new(@generations[i].offsprings)
     end
     show
   end
 
+  # Displays the results of the simulation on the standard output.
   def show
-    puts("GEN\tPOP\tCPL\tOFF\tAVG\tM%|F%\tNNR")
-    puts("---\t---\t---\t---\t---\t-----\t---")
+    puts("GEN\tPOP\tAVG\tM%|F%\tNRR")
+    puts("---\t---\t---\t-----\t---")
     @generations.each_with_index do |gen, i|
       break if i == @generations.length - 1
+
       print("#{i + 1}\t")
       unless i >= @generations.length
-        gen.nnr = Generation::compute_nnr(gen, @generations[i + 1])
+        gen.nrr = Generation.compute_nrr(gen, @generations[i + 1])
       end
       gen.display_details
     end

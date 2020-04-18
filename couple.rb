@@ -2,19 +2,23 @@
 
 require './util/assertion_error.rb'
 require './individual.rb'
+require './parameters.rb'
 
 # A couple of two individuals that can reproduce.
-# @inv  members.length == 2 && members.each { |m| m.is_a?(Individual) }
-#       && 0 <= offsprings.length <= max_offsprings
-#       && offsprings.each { |p| p.is_a?(Individual) }
+# @inv
+#   members.length == 2 && members.each { |m| m.is_a?(Individual) }
+#   && 0 <= offsprings.length <= max_offsprings
+#   && offsprings.each { |p| p.is_a?(Individual) }
 class Couple
   attr_reader :members, :offsprings, :max_offsprings
 
   # A new couple formed by two indivuals.
-  # @pre  ind_a.compatible?(ind_b)
-  # @post members.include(ind_a) && members.include?(ind_b)
-  #       && offsprings.empty?
-  #       && ind_a.paired? && ind_b.paired?
+  # @pre
+  #   ind_a.compatible?(ind_b)
+  # @post
+  #   members.include(ind_a) && members.include?(ind_b)
+  #   && offsprings.empty?
+  #   && ind_a.paired? && ind_b.paired?
   def initialize(ind_a, ind_b)
     unless ind_a.compatible?(ind_b)
       raise AssertionError, 'Incompatible individuals'
@@ -29,9 +33,10 @@ class Couple
   # Makes the couple reproduce.
   #
   # Offsprings' sex are determined randomly.
-  # @post offsprings.length == rand(0, max_offsprings)
+  # @post
+  #   offsprings.length == Random.rand(1, max_offsprings)
   def breed
-    rand(0..$MAX_OFFSPRINGS).times do
+    Random.rand(0..Parameters.max_offsprings).times do
       @offsprings.push(Individual.new(Individual::SEXES.sample))
     end
   end
