@@ -8,59 +8,42 @@ require './couple.rb'
 # @inv
 #   individuals.each { |i| i.is_a?(Individual) }
 #   && offsprings.each { |i| i.is_a?(Individual) }
-#   && nrr >= 0.0
+#   && 0 <= mothers_count < individuals.length
 class Generation
-  attr_reader :offsprings, :individuals
-  attr_accessor :nrr
+  attr_reader :offsprings, :individuals, :mothers_count
 
   # A new generation formed with new indivuals whose sex is randomly determined.
   # @pre
   #   Parameters.initial_pop_size >= 0
   # @post
   #   individuals.length == Parameters.initial_pop_size
-  #   && individuals.each { |i| i.is_a?(Individual) }
-  #   && offsprings.each { |o| o.is_a?(Individual) }
-  #   && nrr == 0.0
   def self.new_initial_pop
-    unless Parameters.initial_pop_size >= 0
-      raise AssertionError.new, 'negative initial population'
-    end
-
     initial_pop = Array.new(Parameters.initial_pop_size) do
       Individual.new(Individual::SEXES.sample)
     end
     new(initial_pop)
   end
 
-  # Returns the number of mothers in the given generations.
-  # @post
-  #   0 <= result < gen.individuals.length
-  def self.mothers_count(gen)
-    gen.individuals.select { |i| i.paired? && i.sex == :female }.length
-  end
-
-  # Returns the net reproduction rate for the two given generations.
-  # @post
-  #   result >= 0.0
-  def self.compute_nrr(parent_gen, off_gen)
-    if parent_gen.individuals.empty? || off_gen.individuals.empty?
-      0
-    else
-      (mothers_count(off_gen) / mothers_count(parent_gen).to_f).round(1)
-    end
-  end
-
   # A new generation made from the given population.
   # @post
   #   individuals.length == pop.length
-  #   && individuals.each { |i| i.is_a?(Individual) }
-  #   && offsprings.each { |o| o.is_a?(Individual) }
-  #   && nrr == 0.0
   def initialize(pop)
+    unless Parameters.initial_pop_size >= 0
+      raise AssertionError.new, 'negative initial population'
+    end
+
+    @mothers_count = 0
+    @nrr = 0.0
     @individuals = pop
     @couples = make_couples
     @offsprings = make_offsprings
-    @nrr = 0.0
+  end
+
+  # Sets the net reproduction rate for the this generation and the given one.
+  def compute_nrr(off_gen)
+    return if individuals.empty? || off_gen.individuals.empty?
+
+    @nrr = (off_gen.mothers_count / @mothers_count.to_f).round(1)
   end
 
   # Displays formatted details about this generation.
@@ -92,7 +75,10 @@ class Generation
     offsprings = []
     @couples.each do |cpl|
       cpl.breed
-      offsprings << cpl.offsprings
+      unless cpl.offsprings.empty?
+        offsprings << cpl.offsprings
+        @mothers_count += 1
+      end
     end
     offsprings.flatten
   end
@@ -112,10 +98,8 @@ class Generation
   # @pre
   #   Individual::SEXES.include?(sex)
   # @post
-  #   0.0 <= retult <= 100.0
+  #   0.0 <= result <= 100.0
   def sex_percentage(sex)
-    raise AssertionError, 'unkown sex' unless Individual::SEXES.include?(sex)
-
     if @individuals.empty?
       0
     else

@@ -30,11 +30,9 @@ class Couple
     ind_b.couple = self
   end
 
-  # Makes the couple reproduce.
-  #
-  # Offsprings' sex are determined randomly.
+  # Makes the couple reproduce. Offsprings' sex are determined randomly.
   # @post
-  #   offsprings.length == Random.rand(1, max_offsprings)
+  #   offsprings.length == Random.rand(0, max_offsprings)
   def breed
     Random.rand(0..Parameters.max_offsprings).times do
       @offsprings << Individual.new(Individual::SEXES.sample)

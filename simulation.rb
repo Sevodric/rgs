@@ -22,7 +22,16 @@ class Simulation
     (0...Parameters.duration).each do |i|
       @generations[i + 1] = Generation.new(@generations[i].offsprings)
     end
+    compute_nnrs
     show
+  end
+
+  private
+
+  def compute_nnrs
+    @generations.each_with_index do |gen, i|
+      gen.compute_nrr(@generations[i + 1]) unless i >= @generations.length - 1
+    end
   end
 
   # Displays the results of the simulation on the standard output.
@@ -33,9 +42,6 @@ class Simulation
       break if i == @generations.length - 1
 
       print("#{i + 1}\t")
-      unless i >= @generations.length
-        gen.nrr = Generation.compute_nrr(gen, @generations[i + 1])
-      end
       gen.display_details
     end
   end
