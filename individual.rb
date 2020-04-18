@@ -9,8 +9,8 @@ require './util/assertion_error.rb'
 class Individual
   SEXES = %i[male female].freeze
 
-  attr_reader :sex, :couple
-  attr_writer :couple
+  attr_reader :sex
+  attr_accessor :couple
 
   # A new individual with the given sex.
   # @pre
@@ -19,7 +19,7 @@ class Individual
   #   sex == sex
   #   && couple.nil?
   def initialize(sex)
-    raise AssertionError, 'Invalid sex' unless SEXES.include?(sex)
+    raise AssertionError, 'invalid sex' unless SEXES.include?(sex)
 
     @sex = sex
     @couple = nil
@@ -32,11 +32,11 @@ class Individual
 
   # Checks if this indivual is compatible with another one.
   def compatible?(ind)
-    ind.is_a?(Individual) && ind.sex != @sex && !paired? && !ind.paired?
+    ind.sex != @sex && !paired? && !ind.paired?
   end
 
   # Returns a human-readable string representation of this individual.
-  def describe
-    "#<Individual:#{object_id} @sex=#{@sex} @couple=#{@couple}>"
+  def to_s
+    "IndividualID=#{object_id} sex=#{@sex} couple=#{@couple}>"
   end
 end

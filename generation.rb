@@ -33,28 +33,16 @@ class Generation
   end
 
   # Returns the number of mothers in the given generations.
-  # @pre
-  #   gen.respond_to?(:individuals)
+  # @post
+  #   0 <= result < gen.individuals.length
   def self.mothers_count(gen)
-    unless gen.respond_to?(:individuals)
-      raise AssertionError, 'not a generation'
-    end
-
     gen.individuals.select { |i| i.paired? && i.sex == :female }.length
   end
 
   # Returns the net reproduction rate for the two given generations.
-  # @pre
-  #   parent_gen.respond_to?(:individuals)
-  #   && off_gen.respond_to?(:individuals)
   # @post
   #   result >= 0.0
   def self.compute_nrr(parent_gen, off_gen)
-    unless parent_gen.respond_to?(:individuals) &&
-           off_gen.respond_to?(:individuals)
-      raise AssertionError, 'not an individual'
-    end
-
     if parent_gen.individuals.empty? || off_gen.individuals.empty?
       0
     else
@@ -63,18 +51,12 @@ class Generation
   end
 
   # A new generation made from the given population.
-  # @pre
-  #   pop.each { |i| i.is_a?(Individual) }
   # @post
   #   individuals.length == pop.length
   #   && individuals.each { |i| i.is_a?(Individual) }
   #   && offsprings.each { |o| o.is_a?(Individual) }
   #   && nrr == 0.0
   def initialize(pop)
-    unless pop.each { |i| i.is_a?(Individual) }
-      raise AssertionError.new, 'not an individual'
-    end
-
     @individuals = pop
     @couples = make_couples
     @offsprings = make_offsprings
@@ -93,11 +75,13 @@ class Generation
   # @post
   #   result.each { |c| c.is_a?(Couple) }
   def make_couples
+    return [] if @individuals.empty?
+
     couples = []
-    @individuals.each do |ind|
-      mate = @individuals.select { |i| i.compatible?(ind) }.first
-      couples.push(Couple.new(ind, mate)) unless mate.nil?
-    end
+    males = @individuals.select { |i| i.sex == :male }
+    females = @individuals.select { |i| i.sex == :female }
+    n = [males.length, females.length].min
+    (0...n).each { |i| couples << Couple.new(males[i], females[i]) }
     couples
   end
 
@@ -108,9 +92,9 @@ class Generation
     offsprings = []
     @couples.each do |cpl|
       cpl.breed
-      cpl.offsprings.each { |off| offsprings << off }
+      offsprings << cpl.offsprings
     end
-    offsprings
+    offsprings.flatten
   end
 
   # Returns the average number of offsprings per couples in this generation.

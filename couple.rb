@@ -10,7 +10,7 @@ require './parameters.rb'
 #   && 0 <= offsprings.length <= max_offsprings
 #   && offsprings.each { |p| p.is_a?(Individual) }
 class Couple
-  attr_reader :members, :offsprings, :max_offsprings
+  attr_reader :members, :offsprings
 
   # A new couple formed by two indivuals.
   # @pre
@@ -21,7 +21,7 @@ class Couple
   #   && ind_a.paired? && ind_b.paired?
   def initialize(ind_a, ind_b)
     unless ind_a.compatible?(ind_b)
-      raise AssertionError, 'Incompatible individuals'
+      raise AssertionError, 'incompatible individuals'
     end
 
     @members = [ind_a, ind_b]
@@ -37,12 +37,12 @@ class Couple
   #   offsprings.length == Random.rand(1, max_offsprings)
   def breed
     Random.rand(0..Parameters.max_offsprings).times do
-      @offsprings.push(Individual.new(Individual::SEXES.sample))
+      @offsprings << Individual.new(Individual::SEXES.sample)
     end
   end
 
   # Returns a human-readable string representation of this couple.
-  def describe
-    "#<Couple:#{object_id} @members=#{@members} @offsprings=#{@offsprings}>"
+  def to_s
+    "CoupleID:#{object_id} members=#{@members} offsprings=#{@offsprings}>"
   end
 end
