@@ -12,5 +12,9 @@ module Parameters
     def valid?
       duration >= 0 && initial_pop_size >= 0 && max_offsprings >= 0
     end
+
+    def to_s
+      "duration=#{duration} ips=#{initial_pop_size} max_off=#{max_offsprings}"
+    end
   end
 end

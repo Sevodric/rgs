@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require './simulation.rb'
-require './parameters.rb'
+require './src/simulation.rb'
+require './src/parameters.rb'
 
 if ARGV.length < 3
-  puts('[ERROR] : Missing arguments')
+  puts('[ERROR] Missing arguments')
   exit
 end
 
@@ -13,8 +13,8 @@ Parameters.initial_pop_size = ARGV[1].to_i
 Parameters.max_offsprings = ARGV[2].to_i
 
 unless Parameters.valid?
-  puts('[ERROR] : Invalid simulation parameters')
+  puts('[ERROR] Invalid simulation parameters')
   exit
 end
 
-Simulation.new.start
+Simulation.new.show

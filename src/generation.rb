@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+require 'csv'
 require './util/assertion_error'
-require './individual.rb'
-require './couple.rb'
-require './parameters.rb'
+require './src/individual.rb'
+require './src/couple.rb'
+require './src/parameters.rb'
 
 # A generation of individuals forming couples.
 # @inv
@@ -22,13 +23,13 @@ class Generation
     initial_pop = Array.new(Parameters.initial_pop_size) do
       Individual.new(Individual::SEXES.sample)
     end
-    new(initial_pop)
+    new(initial_pop, 1)
   end
 
   # A new generation made from the given population.
   # @post
   #   individuals.length == pop.length
-  def initialize(pop)
+  def initialize(pop, gen_nb)
     unless Parameters.initial_pop_size >= 0
       raise AssertionError.new, 'negative initial population'
     end
@@ -38,6 +39,7 @@ class Generation
     @individuals = pop
     @couples = make_couples
     @offsprings = make_offsprings
+    @gen_nb = gen_nb
   end
 
   # Sets the net reproduction rate for the this generation and the given one.
@@ -52,9 +54,16 @@ class Generation
   def formatted_infos
     fw = Parameters::FORMAT_WIDTH
     fp = Parameters::FLOAT_PRECISION
-    format("%#{fw}.#{fp}d%#{fw}.#{fp}f%#{fw}.#{fp}f%#{fw}.#{fp}f%#{fw}.#{fp}f",
-           @individuals.length, sex_percentage(:male), sex_percentage(:female),
-           avg_offsprings, @nrr)
+    format("%5d%#{fw}.#{fp}d%#{fw}.#{fp}f%#{fw}.#{fp}f%#{fw}.#{fp}f" \
+           "%#{fw}.#{fp}f", @gen_nb, @individuals.length, sex_percentage(:male),
+           sex_percentage(:female), avg_offsprings, @nrr)
+  end
+
+  def to_csv(file)
+    CSV.open(file, 'a') do |row|
+      row << [@gen_nb, @individuals.length, sex_percentage(:male),
+              sex_percentage(:female), avg_offsprings, @nrr]
+    end
   end
 
   private
