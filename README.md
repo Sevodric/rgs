@@ -1,5 +1,7 @@
 # (Absolutely-Not-)Realistic Generation Simulation
 
+**WORK IN PROGRESS, REGULARLY UPDATED :)**
+
 ## About
 
 Once upon a time, there was a bored CS student. He wanted to know if a
@@ -7,7 +9,7 @@ population could be stable. He decided to fiddle with the lovely Ruby language,
 objects and contracts.
 
 **Disclaimer:** I'm not a biologist, mathematician or any kind of reproduction
-expert, just a bored student :)
+expert, just a bored student `¯\_(ツ)_/¯`
 
 ## Example of usage
 
@@ -40,8 +42,8 @@ Column | Meaning
 ------ | --------
 `GEN`  | generation number
 `POP`  | number of indivuals (not cumulative)
-`OFF`  | average of offsprings per couple
-`F%\|M%`| sex distribution in percentage
+`MALE%`/`FEMALE%` | sex distribution in percentage
+`AVG OFF` | average offsprings per couple
 `NRR` | net reproduction rate
 
 ### Automated simulation generation
@@ -50,7 +52,7 @@ The `auto_test.rb` script can create a load of simulations and associated CSV
 files in the `results` directory.
 
 The results of the current script are available in `results/2020-4-19_182344`.
-It contains 40 simulations with a varation on the two following parameters:
+It contains 40 simulations with a variation on the two following parameters:
 - Initial population: 100, 200, 300, 400, 500, 600, 700, 800, 1000
 - Maximum offsprings: 3, 4, 5, 6
 
@@ -115,8 +117,6 @@ childbearing years is kind of simulated by the fact that some couples can have
 0 offsprings.
 
 *Mass data analysis pending...*
-
-**[COMING SOON]**
 
 ## Conclusion
 
