@@ -1,4 +1,4 @@
-# Ridiculous Generation Simulation
+# (Absolutely-Not-)Realistic Generation Simulation
 
 ## About
 
@@ -11,12 +11,15 @@ expert, just a bored student :)
 
 ## Example of usage
 
-For 10 generations with a starting population of 50 indivdiduals in which each
+### A manual simulation
+
+For 10 generations with an initial population of 50 individuals in which each
 couple can have a maximum of 4 offsprings:
 
 *Possible output:*
 
 ```
+$ ruby rgs.rb 10 50 4
   GEN       POP     MALE%   FEMALE%   AVG OFF       NRR
 -------------------------------------------------------
     1       050    56.000    44.000     2.091     0.789
@@ -40,6 +43,32 @@ Column | Meaning
 `OFF`  | average of offsprings per couple
 `F%\|M%`| sex distribution in percentage
 `NRR` | net reproduction rate
+
+### Automated simulation generation
+
+The `auto_test.rb` script can create a load of simulations and associated CSV
+files in the `results` directory.
+
+The results of the current script are available in `results/2020-4-19_182344`.
+It contains 40 simulations with a varation on the two following parameters:
+- Initial population: 100, 200, 300, 400, 500, 600, 700, 800, 1000
+- Maximum offsprings: 3, 4, 5, 6
+
+*Output:*
+
+```
+$ ruby auto_test.rb
+[INFO] Generating simulations results...
+[...]
+results/2020-4-19_182344/result_15_900_4.csv... done (0s)
+results/2020-4-19_182344/result_15_900_5.csv... done (0s)
+results/2020-4-19_182344/result_15_900_6.csv... done (2s)
+results/2020-4-19_182344/result_15_1000_3.csv... done (0s)
+results/2020-4-19_182344/result_15_1000_4.csv... done (0s)
+results/2020-4-19_182344/result_15_1000_5.csv... done (0s)
+results/2020-4-19_182344/result_15_1000_6.csv... done (2s)
+40 simulations done (12s)
+```
 
 ## Tests and observations
 
@@ -73,20 +102,19 @@ these two parameters result in a quicker extinction/grow.
 
 ### Third phase
 
+> Replacement level  fertility is said to have been reached when NRR=1.0
+
 In this phase, I tried to implement the net reproduction rate of each generation
 compared to the one that follows. With my understanding, I hesitated: should I
 keep the possibility for couples to have no offsprings? I came to the following
 conclusion:
 
-*The simulation doesn't take into account any kind of mortality and the NRR
+The simulation doesn't take into account any kind of mortality and the NRR
 assumes that surviving daughters will have offsprings. Female mortality before
 childbearing years is kind of simulated by the fact that some couples can have
-0 offsprings.*
+0 offsprings.
 
-> Replacement level  fertility is said to have been reached when NRR=1.0
-
-The NRR is now in the place,I want to test multiple parameters in a proper way.
-I might automate this later.
+*Mass data analysis pending...*
 
 **[COMING SOON]**
 
