@@ -3,8 +3,10 @@
 require './src/simulation.rb'
 require './src/parameters.rb'
 
-@results_dir = 'results'
+@results_dir = File.join('results', 'raw')
 @simul_dir = File.join(@results_dir, 'default')
+
+Dir.mkdir(@results_dir) unless Dir.exist?(@results_dir)
 
 # Creates, in the results directory, a new directory whose name starts with the
 #   optional given discriminant followed by the current date and time.
@@ -16,7 +18,7 @@ def make_dir(dis = '')
 end
 
 # Starts a new simulation with the current parameters and creates the associated
-#   CSV file in the current simulation directory.
+#   CSV file x  in the current simulation directory.
 def make_results
   start_time = Time.new.to_i
   filename = "result_#{Parameters.duration}_#{Parameters.initial_pop_size}_" \
@@ -31,7 +33,7 @@ puts('[INFO] Generating simulations results...')
 @g_start_time = Time.new.to_i
 @total_sim = 0
 
-# initial_pop_size (100..1000).step(100)
+# initial_pop_size (100..1000).step(500)
 # max_offsprings = 4
 Parameters.duration = 15
 Parameters.max_offsprings = 4
