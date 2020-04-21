@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './util/assertion_error.rb'
+require_relative 'assertion_error.rb'
 
 # An individual, either male or female.
 # @inv

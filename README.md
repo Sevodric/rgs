@@ -48,29 +48,29 @@ Column | Meaning
 
 ### Automated simulation generation
 
-The `auto_test.rb` script can create a load of simulations and associated CSV
-files in the `results` directory.
+`multi_sim.rb` is used to create multiple simulations with one or more varying
+parameters. Results are stored as CSV files under a newly created
+`results/yyyy-mm-dd_hhmmss/raw/` directory.
 
-The results of the current script are available in `results/2020-4-19_182344`.
-It contains 40 simulations with a variation on the two following parameters:
-- Initial population: 100, 200, 300, 400, 500, 600, 700, 800, 1000
-- Maximum offsprings: 3, 4, 5, 6
+`sym_to_graph.py` can then be used to obtain a serie of graphs for each CSV file
+which will be put in the under the `results/yyyy-mm-dd_hhmmss/graph/` directory.
 
-*Output:*
+Example tree of the `result/` folder after making 3 simulations on 15
+generations with an initial population of 10.000 individuals and 3, 4 and then 5 maximum offsprings:
 
 ```
-$ ruby auto_test.rb
-[INFO] Generating simulations results...
-[...]
-results/2020-4-19_182344/result_15_900_4.csv... done (0s)
-results/2020-4-19_182344/result_15_900_5.csv... done (0s)
-results/2020-4-19_182344/result_15_900_6.csv... done (2s)
-results/2020-4-19_182344/result_15_1000_3.csv... done (0s)
-results/2020-4-19_182344/result_15_1000_4.csv... done (0s)
-results/2020-4-19_182344/result_15_1000_5.csv... done (0s)
-results/2020-4-19_182344/result_15_1000_6.csv... done (2s)
-40 simulations done (12s)
+.
+└─ 2020-4-21_20222
+   ├── graph
+   │   ├── result_15_10000_3.png
+   │   ├── result_15_10000_4.png
+   │   └── result_15_10000_5.png
+   └── raw
+       ├── result_15_10000_3.csv
+       ├── result_15_10000_4.csv
+       └── result_15_10000_5.csv
 ```
+
 
 ## Tests and observations
 

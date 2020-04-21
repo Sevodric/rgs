@@ -4,9 +4,9 @@
 class AssertionError < ArgumentError
   def initialize(msg = '')
     if msg.empty?
-      super('precondition violation')
+      super('contract violation')
     else
-      super('precondition violation (' + msg + ')')
+      super('contract violation (' + msg + ')')
     end
   end
 end

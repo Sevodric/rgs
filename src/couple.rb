@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require './util/assertion_error.rb'
-require './src/individual.rb'
-require './src/parameters.rb'
+require_relative 'assertion_error.rb'
+require_relative 'individual.rb'
+require_relative 'parameters.rb'
 
 # A couple of two individuals that can reproduce.
 # @inv

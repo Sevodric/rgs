@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'csv'
-require './util/assertion_error'
-require './src/individual.rb'
-require './src/couple.rb'
-require './src/parameters.rb'
+require_relative 'assertion_error.rb'
+require_relative 'individual.rb'
+require_relative 'couple.rb'
+require_relative 'parameters.rb'
 
 # A generation of individuals forming couples.
 # @inv

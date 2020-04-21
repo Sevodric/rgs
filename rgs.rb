@@ -1,7 +1,8 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require './src/simulation.rb'
-require './src/parameters.rb'
+require_relative 'src/simulation.rb'
+require_relative 'src/parameters.rb'
 
 if ARGV.length < 3
   puts('[ERROR] Missing arguments')

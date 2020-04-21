@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require './util/assertion_error'
-require './src/generation.rb'
-require './src/parameters.rb'
+require_relative 'assertion_error.rb'
+require_relative 'generation.rb'
+require_relative 'parameters.rb'
 
 # A simulation of the evolution of a population.
 class Simulation
