@@ -43,7 +43,7 @@ class Simulation
   private
 
   def compute_nnrs
-    (0...(@generations.length - 1)).each do |i|
+    (0...(@generations.length - 2)).each do |i| # The 2 last gen don't have NRR
       @generations[i].compute_nrr(@generations[i + 1])
     end
   end

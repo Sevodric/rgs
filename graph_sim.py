@@ -13,7 +13,7 @@ if len(sys.argv) < 2:
     exit()
 
 # Columns numbers in CSV files
-cols = {'gen': 0, 'pop': 1, 'male': 2, 'female': 3, 'avg_off': 4, 'nrr': 4}
+cols = {'gen': 0, 'pop': 1, 'male': 2, 'female': 3, 'avg_off': 4, 'nrr': 5}
 
 sim_dir = Path(sys.argv[1])
 
@@ -46,6 +46,7 @@ for file in sim_raw_dir.iterdir():
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2,
             figsize=(12, 9))
     fig.suptitle(title)
+
     # X axis
     x = result[:, cols['gen']]
 
@@ -75,9 +76,10 @@ for file in sim_raw_dir.iterdir():
     ax3.grid(alpha=0.3)
 
     # NRR axis
-    x = result[:14, cols['gen']]
-    ax4.step(x, result[0:14, cols['nrr']], label='nrr', color='tab:orange')
+    x = result[:, cols['gen']]
+    ax4.step(x, result[:, cols['nrr']], label='nrr', color='tab:orange')
     ax4.xaxis.set_ticks(result[:, cols['gen']])
+    #ax4.axis([0, len(x) - 2, 0, 2])
     ax4.set_ylabel('NRR')
     ax4.set_xlabel('Generation')
     ax4.legend(loc='upper right')
