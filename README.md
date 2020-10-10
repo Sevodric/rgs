@@ -1,7 +1,5 @@
 # (Absolutely-Not-)Realistic Generation Simulation
 
-**WORK IN PROGRESS, REGULARLY UPDATED :)**
-
 ## About
 
 Once upon a time, there was a bored CS student. He wanted to know if a
